@@ -14,6 +14,7 @@ Classification and Regression Tests between Anonymized and Original data to see 
 ### Current Tests
 1. Original and Anonymized Confusion Matrices
 2. Average Number of Correct Class Identifications
+
 ~~3. Two-Way Chi-Squared Test~~
 4. Original and Anonymized Proportional Confusion Matrices
 5. X-percent Confidence Interval of percent deviation from Original Dataset for each Class
