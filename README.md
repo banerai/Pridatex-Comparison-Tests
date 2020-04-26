@@ -17,9 +17,11 @@ Ensemble variable for average Confusion matrix:
 n_ensemble = 100
 
 
+
 When to print to update ensemble, for convenience:
 
 n_update_ensemble_print = 50
+
 
 
 % threshold for Confusion Matrix Exclusion:
@@ -27,11 +29,13 @@ n_update_ensemble_print = 50
 n_threshold = 0
 
 
+
 Prediction and Confidence interval thresholds:
 
 n_interval_prediction = 90
 
 n_interval_confidence = 95
+
 
 
 ### Current Tests
