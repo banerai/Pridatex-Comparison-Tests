@@ -30,12 +30,12 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
        We want to see how closely Anonymized Model can perform on the real data.*
 
 **Stage 2: Classification Model Accuracy trained on Original Data** 
-4. Build a classification model on the Original Dataset
-5. Generate y-predictions with Original Data's X-values using Original Dataset's classification model
-6. Generate a confusion matrix between Original Dataset's y-predictions and Original Data's y-values
+1. Build a classification model on the Original Dataset
+2. Generate y-predictions with Original Data's X-values using Original Dataset's classification model
+3. Generate a confusion matrix between Original Dataset's y-predictions and Original Data's y-values
 
 **Stage 3: Classification Model Accuracy Comparison between training on Original Data and Anonymized Data**
-7. Subtract confusion matrix of Anonymized Dataset with that of Original Dataset
+1. Subtract confusion matrix of Anonymized Dataset with that of Original Dataset
 
 **Testing Notes**
 We will use the same testing dataset for Anonymized Dataset and Original Dataset. 
