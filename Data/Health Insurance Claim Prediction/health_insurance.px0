@@ -1,0 +1,2 @@
+age,sex,bmi,children,smoker,region,charges,output
+integer numerical,categorical,floating numerical,integer numerical,categorical,categorical,floating numerical,output
