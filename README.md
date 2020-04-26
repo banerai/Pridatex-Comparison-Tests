@@ -38,6 +38,7 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
 1. Subtract confusion matrix of Anonymized Dataset with that of Original Dataset
 
 **Testing Notes**
+
 We will use the same testing dataset for Anonymized Dataset and Original Dataset. 
 We will also leave out same number of data randomly for training on Anonymized Dataset. 
 Anonymized Data preserves the size of the dataset in terms of the number of data points/rows.
