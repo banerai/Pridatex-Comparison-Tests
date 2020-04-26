@@ -23,25 +23,23 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
 ### Algorithm 
 
 **Stage 1: Classification Model Accuracy trained on Anonymized Data**
-1. Build a classification model on the Anonymized Dataset
-2. Generate y-predictions with Original Data's X-values using Anonymized Dataset's classification model
-3. Generate a confusion matrix between Anonymized Dataset's y-predictions and Original Data's y-values
+1. Build a classification model with the Anonymized Dataset
+2. Generate y-predictions of Original Validation Data's X-values using Anonymized Dataset's classification model
+3. Generate a confusion matrix between Anonymized Dataset's y-predictions and Original Validation Data's y-values
 *Note: We acquire losses on Original Data because those are the real y-values. 
        We want to see how closely Anonymized Model can perform on the real data.*
 
 **Stage 2: Classification Model Accuracy trained on Original Data** 
-1. Build a classification model on the Original Dataset
-2. Generate y-predictions with Original Data's X-values using Original Dataset's classification model
-3. Generate a confusion matrix between Original Dataset's y-predictions and Original Data's y-values
+1. Build a classification model with the Original Training Dataset
+2. Generate y-predictions of Original Validation Data's X-values using Original Training Dataset's classification model
+3. Generate a confusion matrix between Original Training Dataset's y-predictions and Original Validation Data's y-values
 
 **Stage 3: Classification Model Accuracy Comparison between training on Original Data and Anonymized Data**
-1. Subtract confusion matrix of Anonymized Dataset with that of Original Dataset
+1. Perform Tests
 
 **Testing Notes**
 
-We will use the same testing dataset for Anonymized Dataset and Original Dataset. 
-We will also leave out same number of data randomly for training on Anonymized Dataset. 
-Anonymized Data preserves the size of the dataset in terms of the number of data points/rows.
+We will use the same validation dataset for Anonymized Dataset and Original Dataset. 
 The Confusion Matrix differences may not be exactly reproducible due to the randomness of 
 selecting data for training and testing, and that the rows of the anonymized dataset do not match 
 the rows of the original data.
@@ -56,4 +54,4 @@ the rows of the original data.
 6. Y-percent Overall Prediction Interval of percent deviation from Original Dataset
 7. X-percent Overall Confidence Interval of percent deviation from Original Dataset 
 
-Note: The intervals show a difference of accuracies between a model trained on the anonymized data and a model trained on the original data.
+*Note: The intervals show a difference of accuracies between a model trained on the anonymized data and a model trained on the original data.*
