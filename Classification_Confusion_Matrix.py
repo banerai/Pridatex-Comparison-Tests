@@ -42,7 +42,7 @@ from sklearn.exceptions import DataConversionWarning
 from scipy.stats import chi2
 
 #Ensemble variable for average Confusion matrix
-n_ensemble = 100
+n_ensemble = 1000
 
 #When to print to update ensemble, for convenience
 n_update_ensemble_print = 50
@@ -51,7 +51,7 @@ n_update_ensemble_print = 50
 n_threshold = 0
 
 #Batch of n_batch for confidence intervals
-n_batch = 10
+n_batch = 100
 
 #Prediction and Confidence interval thresholds
 n_interval_prediction = 90
@@ -94,7 +94,11 @@ for (columnName, columnData) in data_original.iteritems():
         for (columnName2, columnData2) in data_anonymized.iteritems():
             if (columnName2 == columnName):
                 data_anonymized_processed[columnName2] = columnData2
-    
+
+#Pandas has a very crappy translation problem with outputting a few of the original floating points as NaNs in iteritems()   
+data_original_processed = data_original_processed.dropna() 
+data_anonymized_processed = data_anonymized_processed.dropna()
+
 # Designate Input Original
 inputDF_original = data_original_processed.loc[:, data_original.columns != 'output']
 
