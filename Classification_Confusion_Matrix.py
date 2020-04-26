@@ -42,7 +42,7 @@ from sklearn.exceptions import DataConversionWarning
 from scipy.stats import chi2
 
 #Ensemble variable for average Confusion matrix
-n_ensemble = 1000
+n_ensemble = 100
 
 #When to print to update ensemble, for convenience
 n_update_ensemble_print = 50
@@ -51,7 +51,7 @@ n_update_ensemble_print = 50
 n_threshold = 0
 
 #Batch of n_batch for confidence intervals
-n_batch = 100
+n_batch = 10
 
 #Prediction and Confidence interval thresholds
 n_interval_prediction = 90
@@ -77,18 +77,24 @@ pattern1 = input[:-4] + "_anonymized.csv"
 data_anonymized = pd.read_csv(pattern1)
 data_anonymized = data_anonymized.dropna()
 
+#LabelEncoder on string datatypes
 data_original_processed = pd.DataFrame()
+data_anonymized_processed = pd.DataFrame()
 le = LabelEncoder()
 for (columnName, columnData) in data_original.iteritems():
-    le.fit(columnData.astype(str))
-    data_original_processed[columnName] = le.transform(columnData.astype(str))
-
-data_anonymized_processed = pd.DataFrame()
-le2 = LabelEncoder()
-for (columnName, columnData) in data_anonymized.iteritems():
-    le2.fit(columnData.astype(str))
-    data_anonymized_processed[columnName] = le2.transform(columnData.astype(str))
-
+    if(data_original.dtypes[columnName] == 'object'):
+        le.fit(columnData.astype(str))
+        data_original_processed[columnName] = le.transform(columnData.astype(str))
+        for (columnName2, columnData2) in data_anonymized.iteritems():
+            if (columnName2 == columnName):
+                le.fit(columnData2.astype(str))
+                data_anonymized_processed[columnName2] = le.transform(columnData2.astype(str))
+    else:
+        data_original_processed[columnName] = columnData
+        for (columnName2, columnData2) in data_anonymized.iteritems():
+            if (columnName2 == columnName):
+                data_anonymized_processed[columnName2] = columnData2
+    
 # Designate Input Original
 inputDF_original = data_original_processed.loc[:, data_original.columns != 'output']
 
