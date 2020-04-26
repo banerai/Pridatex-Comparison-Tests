@@ -40,18 +40,16 @@ from sklearn.preprocessing import LabelEncoder
 import warnings
 from sklearn.exceptions import DataConversionWarning
 from scipy.stats import chi2
+import scipy.stats as st
 
 #Ensemble variable for average Confusion matrix
-n_ensemble = 1000
+n_ensemble = 100
 
 #When to print to update ensemble, for convenience
 n_update_ensemble_print = 50
 
 #% threshold for Confusion Matrix Exclusion
 n_threshold = 0
-
-#Batch of n_batch for confidence intervals
-n_batch = 100
 
 #Prediction and Confidence interval thresholds
 n_interval_prediction = 90
@@ -95,7 +93,7 @@ for (columnName, columnData) in data_original.iteritems():
             if (columnName2 == columnName):
                 data_anonymized_processed[columnName2] = columnData2
 
-#Pandas has a very crappy translation problem with outputting a few of the original floating points as NaNs in iteritems()   
+#Pandas has a very crappy translation problem with outputting a only a few of the original floating points as NaNs in iteritems()   
 data_original_processed = data_original_processed.dropna() 
 data_anonymized_processed = data_anonymized_processed.dropna()
 
@@ -149,6 +147,9 @@ for c in range(0, len(exclusion_list)):
     
 #Start Ensemble of Confusion Matrices
 for t in range(0, n_ensemble):
+    temp_confusion_matrix_original = np.zeros([y_original_size, y_original_size])
+    temp_confusion_matrix_anonymized = np.zeros([y_original_size, y_original_size])
+    
     #Print ensemble number
     if ((t % n_update_ensemble_print) == 0):
         print("Ensemble #%d" % t)
@@ -180,8 +181,10 @@ for t in range(0, n_ensemble):
                 save_x = j
             if(y_pred_anonymized[i] == unique_values[j]):
                 save_y = j
-        confusion_matrix_anonymized[save_x][save_y] += 1
+        temp_confusion_matrix_anonymized[save_x][save_y] += 1
 
+    confusion_matrix_anonymized += temp_confusion_matrix_anonymized
+    
     #### Classification Model on Original Dataset ####
     # Intialize RCF
     clf_original = RandomForestClassifier()
@@ -200,17 +203,19 @@ for t in range(0, n_ensemble):
                 save_x = j
             if(y_pred_original[i] == unique_values[j]):
                 save_y = j
-        confusion_matrix_original[save_x][save_y] += 1
+        temp_confusion_matrix_original[save_x][save_y] += 1
+    
+    confusion_matrix_original += temp_confusion_matrix_original
     
     #Statistical Interval Calculations of % deviation from original dataset
-    proportion_matrix_anonymized = np.copy(confusion_matrix_anonymized)
-    for u in range(0, np.shape(confusion_matrix_anonymized)[0]):
-        total_u_row = np.sum(confusion_matrix_anonymized[u])
+    proportion_matrix_anonymized = np.copy(temp_confusion_matrix_anonymized)
+    for u in range(0, np.shape(temp_confusion_matrix_anonymized)[0]):
+        total_u_row = np.sum(temp_confusion_matrix_anonymized[u])
         proportion_matrix_anonymized[u] /= total_u_row
     
-    proportion_matrix_original = np.copy(confusion_matrix_original)
-    for u in range(0, np.shape(confusion_matrix_original)[0]):
-        total_u_row = np.sum(confusion_matrix_original[u])
+    proportion_matrix_original = np.copy(temp_confusion_matrix_original)
+    for u in range(0, np.shape(temp_confusion_matrix_original)[0]):
+        total_u_row = np.sum(temp_confusion_matrix_original[u])
         proportion_matrix_original[u] /= total_u_row
     
     for u in range(0, np.shape(proportion_matrix_original)[0]):
@@ -270,29 +275,23 @@ print() #Additional formatting
 
 #### Proportional Confidence Interval -  Classes ####
 #Separate CIs for each class
-if n_ensemble >= n_batch:
-    ci_dict = {}
-    i_dict = {}
+ci_dict = {}
+
+for data in unique_values:
+    ci_dict[data] = []
     
-    for data in unique_values:
-        ci_dict[data] = []
-        i_dict[data] = []
-        
-    position = 0
-    for data in Correct_Data:
-        key_value = unique_values[(position % len(unique_values))]
-        if(len(i_dict[key_value]) == n_batch):
-            ci_dict[key_value].append(np.sum(i_dict[key_value])/n_batch)
-            i_dict[key_value].clear()
-        i_dict[key_value].append(data)
-        position += 1
-    
-    row = 0
-    for key in unique_values:
-        lower_correct_data = np.quantile(ci_dict[key], (1-(n_interval_confidence/100)))    
-        upper_correct_data = np.quantile(ci_dict[key], (n_interval_confidence/100))
-        print("%d-percent Confidence Interval of percent deviation from Original Dataset for Class %d, with batches of %d: (%.2f, %.2f)" % (n_interval_confidence, row, n_batch, lower_correct_data, upper_correct_data))
-        row += 1
+position = 0
+for data in Correct_Data:
+    key_value = unique_values[(position % len(unique_values))]
+    ci_dict[key_value].append(data)
+    position += 1
+
+row = 0
+for key in unique_values:
+    lower_correct_data = st.t.interval((n_interval_confidence/100), len(ci_dict[key])-1, loc=np.mean(ci_dict[key]), scale=st.sem(ci_dict[key]))[0] 
+    upper_correct_data = st.t.interval((n_interval_confidence/100), len(ci_dict[key])-1, loc=np.mean(ci_dict[key]), scale=st.sem(ci_dict[key]))[1] 
+    print("%d-percent Confidence Interval of percent deviation from Original Dataset for Class %d: (%.2f, %.2f)" % (n_interval_confidence, row, lower_correct_data, upper_correct_data))
+    row += 1
 
 #### Proportional Prediction Interval ####
 #Prediction Intervals have high variance anyway so I do not think anyone cares about this
@@ -304,16 +303,8 @@ if len(Correct_Data) > 0:
 #### Proportional Confidence Interval -  Overall ####
 #Overall CI takes in correctly identified data for classes which have small number of data that have high deviation values thanks to ... well ... law of small numbers
 #Thus, the overall CI averages over small-sized classes as large-sized classes to minimize variation due to small numbers
-if n_ensemble >= n_batch:
-    ci_data = []
-    i_data = []
-    for data in Correct_Data:
-        if(len(i_data) == n_batch):
-            ci_data.append(np.sum(i_data)/n_batch)
-            i_data.clear()
-        i_data.append(data)
         
-    lower_correct_data = np.quantile(ci_data, (1-(n_interval_confidence/100)))    
-    upper_correct_data = np.quantile(ci_data, (n_interval_confidence/100))
+lower_correct_data = st.t.interval((n_interval_confidence/100), len(Correct_Data)-1, loc=np.mean(Correct_Data), scale=st.sem(Correct_Data))[0]
+upper_correct_data = st.t.interval((n_interval_confidence/100), len(Correct_Data)-1, loc=np.mean(Correct_Data), scale=st.sem(Correct_Data))[1]
     
-    print("%d-percent Overall Confidence Interval of percent deviation from Original Dataset, with batches of %d: (%.2f, %.2f)" % (n_interval_confidence, n_batch, lower_correct_data, upper_correct_data))
+print("%d-percent Overall Confidence Interval of percent deviation from Original Dataset: (%.2f, %.2f)" % (n_interval_confidence, lower_correct_data, upper_correct_data))
