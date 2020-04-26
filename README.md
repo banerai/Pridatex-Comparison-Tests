@@ -55,3 +55,5 @@ the rows of the original data.
 5. X-percent Confidence Interval of percent deviation from Original Dataset for each Class
 6. Y-percent Overall Prediction Interval of percent deviation from Original Dataset
 7. X-percent Overall Confidence Interval of percent deviation from Original Dataset 
+
+Note: CI gives the deviation of accuracies between a model trained on the anonymized data and the same model trained on the original data.
