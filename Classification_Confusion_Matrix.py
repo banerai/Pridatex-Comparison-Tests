@@ -43,7 +43,7 @@ from scipy.stats import chi2
 import scipy.stats as st
 
 #Ensemble variable for average Confusion matrix
-n_ensemble = 100
+n_ensemble = 1000
 
 #When to print to update ensemble, for convenience
 n_update_ensemble_print = 50
@@ -53,7 +53,7 @@ n_threshold = 0
 
 #Prediction and Confidence interval thresholds
 n_interval_prediction = 90
-n_interval_confidence = 95
+n_interval_confidence = 95.0
 
 #Suppress numpy notation 
 np.set_printoptions(suppress=True)
