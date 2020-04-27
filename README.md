@@ -12,7 +12,7 @@ Classification and Regression Tests between Anonymized and Original data to see 
 > python [Classification_Confusion_Matrix.py] [original filename]
 
 ### Default Options
-Ensemble variable for average Confusion matrix: n_ensemble = 100
+Ensemble variable for average Confusion matrix: n_ensemble = 1000
 
 When to print to update ensemble, for convenience: n_update_ensemble_print = 50
 
