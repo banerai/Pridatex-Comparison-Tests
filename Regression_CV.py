@@ -3,6 +3,11 @@
 #2. Forward Selection with Original Data
 #3. Cross-Validation using same test data (Original Data)
 
+#Note: Forward Selection needs the following assumptions by ANOVA
+#1. Data is Normally Distributed (may be covered wityh sample size > 30)
+#2. Homogeneity of Variance - Variance among the groups should be approximately equal.
+#3. Observations are independent of eachother (well, an inaccurate assumption we will take for this case)
+
 ######## CODE ########
 
 #### Import Packages ####
