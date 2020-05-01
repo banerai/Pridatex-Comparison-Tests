@@ -2,7 +2,7 @@
 #1. Forward Selection with Anonymized Data
 #2. Forward Selection with Original Data
 #3. Cross-Validation using same test data (Original Data)
-#4. Compare RSME's
+#4. Compare MSE's
 
 #Note: Forward Selection needs the following assumptions by ANOVA
 #1. Data is Normally Distributed (may be covered wityh sample size > 30)
