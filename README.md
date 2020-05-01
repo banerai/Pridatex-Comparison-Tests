@@ -61,6 +61,7 @@ the rows of the original data.
 1. Not ensemble
 2. Faulty Assumptions with ANOVA
 3. Parameterization is not complete
+4. Need to implement Confidence Interval Tests
 
 ### Usage
 > python [Regression_CV.py] [original filename]
