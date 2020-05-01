@@ -28,6 +28,7 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
 1. Build a classification model with the Anonymized Dataset
 2. Generate y-predictions of Original Validation Data's X-values using Anonymized Dataset's classification model
 3. Generate a confusion matrix between Anonymized Dataset's y-predictions and Original Validation Data's y-values
+
 *Note: We acquire losses on Original Data because those are the real y-values. 
        We want to see how closely Anonymized Model can perform on the real data.*
 
