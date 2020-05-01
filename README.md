@@ -57,7 +57,10 @@ the rows of the original data.
 
 ## Regression Test
 
-**Work in Progress** due to faulty assumptions.
+**Work in Progress**
+1. Not ensemble
+2. Faulty Assumptions with ANOVA
+3. Parameterization is not complete
 
 ### Usage
 > python [Regression_CV.py] [original filename]
