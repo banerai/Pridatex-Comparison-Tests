@@ -84,6 +84,12 @@ Boolean for whether forward or backward selection: bool_forward = False
 2. Cross-validate the model with the Original Dataset
 3. Calculate MSE
 
+***Note: Forward/Backward Selection needs the following assumptions by ANOVA**
+1. Data is Normally Distributed (may be covered wityh sample size > 30)
+2. Homogeneity of Variance - Variance among the groups should be approximately equal.
+3. Observations are independent of eachother (well, an inaccurate assumption we will take for this case)*
+
+
 ### Current Tests on MSE's
 1. Original and Anonymized MSEs
 2. Proportional Difference between Original and Anonymized MSEs
