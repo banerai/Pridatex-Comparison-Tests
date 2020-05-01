@@ -37,7 +37,7 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
 2. Generate y-predictions of Original Validation Data's X-values using Original Training Dataset's classification model
 3. Generate a confusion matrix between Original Training Dataset's y-predictions and Original Validation Data's y-values
 
-### Current Tests
+### Current Tests on Confusion Matrices
 1. Original and Anonymized Confusion Matrices
 2. Average Number of Correct Class Identifications
 3. ~~Two-Way Chi-Squared Test~~
@@ -54,3 +54,32 @@ We will use the same validation dataset for Anonymized Dataset and Original Data
 The Confusion Matrix differences may not be exactly reproducible due to the randomness of 
 selecting data for training and testing, and that the rows of the anonymized dataset do not match 
 the rows of the original data.
+
+## Regression Test
+
+**Work in Progress** due to faulty assumptions.
+
+### Usage
+> python [Regression_CV.py] [original filename]
+
+### Default Options
+Boolean for whether forward or backward selection: bool_forward = False
+
+### Algorithm 
+
+**Regression Model Accuracy trained on Anonymized Data**
+1. Build a linear model of 5 variables (subject to parameterization later) with the Anonymized Dataset using forward selection
+2. Cross-validate the model with the Original Dataset
+3. Calculate MSE
+
+*Note: We acquire losses on Original Data because those are the real y-values. 
+       We want to see how closely Anonymized Model can perform on the real data.*
+
+**Regression Model Accuracy trained on Anonymized Data**
+1. Build a linear model of 5 variables (subject to parameterization later) with the Original Dataset using forward selection
+2. Cross-validate the model with the Original Dataset
+3. Calculate MSE
+
+### Current Tests on MSE's
+1. Original and Anonymized MSEs
+2. Proportional Difference between Original and Anonymized MSEs
