@@ -1,7 +1,7 @@
 ######## ALGORITHM ########
 #1. Forward Selection with Anonymized Data
 #2. Forward Selection with Original Data
-#3. Cross-Validation with LOOCV using same test data (Original Data)
+#3. Cross-Validation using same test data (Original Data)
 
 ######## CODE ########
 
