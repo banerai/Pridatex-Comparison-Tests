@@ -22,7 +22,7 @@ Prediction and Confidence interval thresholds: n_interval_prediction = 90, n_int
 
 ### Algorithm 
 
-![Classification Testing](/images/Classification Testing Algorithm.jpg)
+![Classification Testing](/images/Classification_Testing_Algorithm.jpg)
 
 **Stage 1: Classification Model Accuracy trained on Anonymized Data**
 1. Build a classification model with the Anonymized Dataset
