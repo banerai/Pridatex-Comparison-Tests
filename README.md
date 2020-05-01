@@ -72,7 +72,7 @@ Boolean for whether forward or backward selection: bool_forward = False
 ### Algorithm 
 
 **Regression Model Accuracy trained on Anonymized Data**
-1. Build a linear model of 5 variables (subject to parameterization later) with the Anonymized Dataset using forward selection
+1. Build a linear model of 5 variables (subject to parameterization later) with the Anonymized Dataset using forward/backward selection
 2. Cross-validate the model with the Original Dataset
 3. Calculate MSE
 
@@ -80,7 +80,7 @@ Boolean for whether forward or backward selection: bool_forward = False
        We want to see how closely Anonymized Model can perform on the real data.*
 
 **Regression Model Accuracy trained on Anonymized Data**
-1. Build a linear model of 5 variables (subject to parameterization later) with the Original Dataset using forward selection
+1. Build a linear model of 5 variables (subject to parameterization later) with the Original Dataset using forward/backward selection
 2. Cross-validate the model with the Original Dataset
 3. Calculate MSE
 
